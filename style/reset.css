@@ -1,0 +1,25 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*全局重定义*/
+div,form,img,dl,dt,dd,p,tr,td,body,strong,span,pre,ul,ol,li{margin:0; padding:0; border:0; background-repeat:no-repeat;list-style: none;list-style-type:none;}
+h1,h2,h3,h4,h5,h6,p{ margin:0; padding:0; font-weight:normal;}
+body{font-family:"Helvetica Neue",HelveticaNeue,"Helvetica-Neue",Helvetica,"BBAlpha Sans",sans-serif; 
+margin: 0px; padding: 0px; line-height: 15px; color: #666; height: auto; clear: both; }
+/* background:#ebebeb;*/
+img{border:none;display:block;}
+input{outline:medium;
+	margin:0;
+	padding:0;
+	border:0;}
+a{
+    text-decoration: none;
+    color: #fff;
+    background: transparent;
+    -webkit-tap-highlight-color: transparent;
+}
+.clearfix:after{visibility: hidden;display: block;font-size: 0;content: " ";clear: both;height: 0;}
+.clearfix{*zoom:1;}
+.fl{float:left;}
+.fr{float:right;}
+.dis{display:block;}

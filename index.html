@@ -1,0 +1,257 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width initial-scale=1 user-scalable=no">
+<title>京东</title>
+<link href="style/reset.css" rel="stylesheet" type="text/css">
+<link href="style/main.css" rel="stylesheet" type="text/css">
+<script src="js/jquery-2.2.0.min.js"></script>
+<script src="js/jquery.mobile-1.4.5.js"></script>
+<script>
+	window.onload=function(){
+		var obg=document.getElementById("banner").getElementsByClassName("bg")[0];
+		var oimg=document.getElementById("banner").getElementsByTagName("img");
+		var omxli=document.getElementsByClassName("mxcontain")[0].getElementsByTagName("li");
+		var omximg=document.getElementsByClassName("mxcontain")[0].getElementsByTagName("img");
+		var omxul=document.getElementsByClassName("mxcontain")[0].getElementsByTagName("ul")[0];
+		<!--图片样式-->
+		if(window.innerWidth<640){
+			for(var i=0;i<10;i++){
+	    		oimg[i].style.width=window.innerWidth+"px";
+			}
+			obg.style.width=parseInt(oimg[0].width)*10+"px";
+			for(var i=0;i<omxli.length;i++){
+				omxli[i].width=(window.innerWidth/3)+"px";
+				omximg[i].style.width=parseInt(omxli[0].width)-22+"px";
+			}
+			omxul.style.width=parseInt(omxli[0].width)*6+"px";
+		}
+		else{
+			for(var i=0;i<10;i++){
+				oimg[i].style.width="640px";}
+			obg.style.width="6400px";
+			for(var i=0;i<omxli.length;i++){
+				omxli[i].style.width="210px";
+				omximg[i].style.width=parseInt(omxli[0].style.width)-22+"px";
+			}
+			omxul.style.width="1260px";
+		}	
+		<!--滚动轮播-->	
+		var left=-parseInt(oimg[0].style.width);
+		var odox=document.getElementsByClassName("dox")[0].getElementsByTagName("li");
+        var index=0;
+        var animated=false;//是否自动滚动
+		var slided=false;//是否滑动
+        var len=odox.length;
+        var newleft;
+        var time=10;
+	
+        var speed=left/time;
+
+		obg.style.left=left+"px";
+		function animate(offset) {
+            newleft = parseInt(obg.style.left) + offset;
+			animated=true;//自动滚动
+			function go(){	
+				if(parseInt(obg.style.left)>newleft){
+					obg.style.left = parseInt(obg.style.left) +speed + "px";
+					setTimeout(go,time);
+				}
+				else{	
+					obg.style.left = newleft;
+               		if (newleft<=(len + 1) * left) {
+                    	obg.style.left = left + "px";
+						
+                	}
+                	animated=false;//自动滚动消失
+				}
+     		}
+			go();
+
+       }
+        function btnshow(j){
+            for(var i=0;i<len;i++){
+                if(odox[i].className=="on"){
+                   odox[i].className="";
+                }
+            }
+            odox[j].className="on";
+		    }
+        function play(){
+			if(!animated){//不在滚动的过程中，则滚动
+				index++;
+			 	if(index>=len){
+                	index=0;
+            	}
+           		btnshow(index);
+            	animate(left)
+			};
+        }
+	   function move(offset){
+		    newleft = parseInt(obg.style.left) + offset;
+		    obg.style.left = newleft+"px";
+               		if (newleft<=(len + 1) * left) {
+                    	obg.style.left = left + "px";	
+                	}
+					if(newleft>left){
+						obg.style.left=len * left+"px";
+					}
+       }
+		function slide_left(offset){
+			index++;
+            if(index>=len){
+                index=0; 
+            } 
+			btnshow(index); 
+            move(offset);
+		}
+		function slide_right(offset){
+            index--;
+            if(index<0){
+                index=len; 
+            }
+			btnshow(index);
+			move(offset);   
+		}
+		
+        setInterval(function(){if(!slided){play();}},2500);
+	    $(".bg").on("swipeleft",function(){
+			slided=true;
+			if(!animated){
+     		slide_left(left);}
+			slided=false;
+		 });
+		 $(".bg").on("swiperight",function(){
+			slided=true;//开始滑动
+			if(!animated){
+     		slide_right(-left);}
+			slided=false;//滑动消失
+		 });
+	}
+		
+</script>
+</head>
+<body>
+<div class="wrap">
+    <div id="header" class="floor">
+        <div class="bj"></div>
+        <div class="container">
+            <div class="icon tu"></div>
+            <form class="search">
+                <span class="btn tu"></span>
+                <input class="txt" type="text"/>
+            </form>
+            <a href="#" class="log">登录</a> </div>
+    </div>
+    <div id="banner" class="floor">
+        <ul class="bg">
+            <li><a><img src="image/banner8.jpg"></a></li>
+            <li><a><img src="image/banner1.jpg"></a></li>
+            <li><a><img src="image/banner2.jpg"></a></li>
+            <li><a><img src="image/banner3.jpg"></a></li>
+            <li><a><img src="image/banner4.jpg"></a></li>
+            <li><a><img src="image/banner5.jpg"></a></li>
+            <li><a><img src="image/banner6.jpg"></a></li>
+            <li><a><img src="image/banner7.jpg"></a></li>
+            <li><a><img src="image/banner8.jpg"></a></li>
+            <li><a><img src="image/banner1.jpg"></a></li>
+        </ul>
+        <ul class="dox">
+            <li class="on"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <div id="nav" class="floor">
+        <ul>
+            <li><a href="#"><img src="image/chaoshi.png"/><span>京东超市</span></a></li>
+            <li><a href="#"><img src="image/quanqiugou.png"/><span>全球购</span></a></li>
+            <li><a href="#"><img src="image/57218c63Nc8120bc4.png"/><span>充值中心</span></a></li>
+            <li><a href="#"><img src="image/57218c85N56467fac.png"/><span>服装城</span></a></li>
+            <li><a href="#"><img src="image/chaoshi.png"/><span>京东超市</span></a></li>
+            <li><a href="#"><img src="image/quanqiugou.png"/><span>全球购</span></a></li>
+            <li><a href="#"><img src="image/57218c63Nc8120bc4.png"/><span>充值中心</span></a></li>
+            <li><a href="#"><img src="image/57218c85N56467fac.png"/><span>服装城</span></a></li>
+        </ul>
+    </div>
+    <div class="floor"><a href="#"><img src="image/5757a583N17098044.jpg!q70.jpg"/></a></div>
+    <div id="miaosha" class="floor">
+        <div class="tittle"> <span class="tu zhong"></span>
+            <h2>掌上秒杀</h2>
+            <div class="time"> <span class="time_style_l">0</span> <span class="time_style_r">0</span> <span class="dox_style">:</span> <span class="time_style_l">5</span> <span class="time_style_r">2</span> <span class="dox_style">:</span> <span class="time_style_l">1</span> <span class="time_style_r">1</span> </div>
+            <a href="#"> <span class="tu fuhao"></span> <span class="more"> 更多秒杀</span> </a> </div>
+        <div class="mxcontain clearfix">
+            <ul>
+                <li><a href="#"><img src="image/5719d00dNcbd302fa.jpg!q70.jpg"/></a> <span class="price">¥119</span> <span class="price_no">¥148</span> </li>
+                <li><a href="#"><img src="image/5632dc1bN14eace4b.jpg!q70.jpg"/></a> <span class="price">¥49</span> <span class="price_no">¥62.9</span> </li>
+                <li><a href="#"><img src="image/56eb6725N6bc62e0d.jpg!q70.jpg"/></a> <span class="price">¥99</span> <span class="price_no">¥129</span> </li>
+                <li><a href="#"><img src="image/56efca3eN674af69d.jpg!q70.jpg"/></a> <span class="price">¥119</span> <span class="price_no">¥148</span> </li>
+                <li><a href="#"><img src="image/56962ad8N33f6b3f2.jpg!q70.jpg"/></a> <span class="price">¥119</span> <span class="price_no">¥148</span> </li>
+                <li><a href="#"><img src="image/57189be3Nfc052df5.jpg!q70.jpg"/></a> <span class="price">¥119</span> <span class="price_no">¥148</span> </li>
+            </ul>
+        </div>
+    </div>
+    <div class="floor"> <a href="#"><img src="image/575ad23bNd56bfc9e.jpg!q70.jpg"/></a> </div>
+    <div class="floor disflex">
+        <div ><a href="#"><img src="image/575ab358Nbc07cb89.jpg!q70.jpg"/></a></div>
+        <div><a href="#"><img src="image/575ab36eNf83a87ba.jpg!q70.jpg"/></a></div>
+    </div>
+    <div class="floor disflex">
+        <div><a href="#"><img src="image/5758e552N7474870a.jpg!q70.jpg"/></a></div>
+        <div><a href="#"><img src="image/5758e60fN81fbd0bd.jpg!q70.jpg"/></a></div>
+        <div><a href="#"><img src="image/57578bcaNaec77859.jpg!q70.jpg"/></a></div>
+        <div><a href="#"><img src="image/5757f5d6N510e72df.jpg!q70.jpg"/></a></div>
+    </div>
+    <div class="floor disflex">
+        <div><a href="#"><img src="image/5758e552N7474870a.jpg!q70.jpg"/></a></div>
+        <div><a href="#"><img src="image/5758e60fN81fbd0bd.jpg!q70.jpg"/></a></div>
+        <div><a href="#"><img src="image/57578bcaNaec77859.jpg!q70.jpg"/></a></div>
+        <div><a href="#"><img src="image/5757f5d6N510e72df.jpg!q70.jpg"/></a></div>
+    </div>
+    <div class="floor disflex">
+        <div><a href="#"><img src="image/57529d6dNb3983258.png!q70.jpg"/></a></div>
+        <div><a href="#"><img src="image/57569cedN6085dcb2.jpg!q70.jpg"/></a></div>
+        <div><a href="#"><img src="image/574d8c3cN9cfde542.jpg!q70.jpg"/></a></div>
+    </div>
+    <div class="floor disflex">
+        <div ><a href="#"><img src="image/5757f506N288a49d8.jpg!q70.jpg"/></a></div>
+        <div><a href="#"><img src="image/5756aa84Na5b93691.jpg!q70.jpg"/></a></div>
+    </div>
+    <div class="floor">
+        <div class="item_2 fl"><a href="#"><img src="image/56f3b6fcN6186fe9b.png!q70.jpg"/></a></div>
+        <div class="item_2 fr"><a href="#"><img src="image/5703fa60N54344fb4.png!q70.jpg"/></a></div>
+        <div class="item_2 fr"><a href="#"><img src="image/57386891N7b1af235.jpg!q70.jpg"/></a></div>
+    </div>
+    <div id="jd_footer">
+        <div class="border_b">
+            <div class="denglu"> <span><a href="#">登录</a></span> <span><a href="#">注册</a></span> <span><a href="#">反馈</a></span> <span class="border_no"><a href="#">回到顶部</a></span> </div>
+        </div>
+        <div class="border_b">
+            <div class="khd">
+            	 <a class="icon_on" href="#"><span class="icon_item icon_1 tu "> </span>客户端</a> 
+            	<a href="#"><span class="icon_item icon_2 tu"></span> 触屏版</a> 
+               <a href="#"> <span class="icon_item icon_3 tu"></span>手机版</a> 
+            </div>
+        </div>
+        <div class="copyright">
+        	<span class="copy">Copyright © 2004-2016 京东JD.com 版权所有</span>
+        </div>
+    </div>
+</div>
+<div id="footer" > 
+    <ul>
+        <li><a href="#"><img src="image/574ff606Na75402ea.png"/></a></li>
+        <li><a href="#"><img src="image/574f8aeeNe4454ca6.png"/></a></li>
+        <li><a class="barimg" href="#"><img src="image/5757f2f7N56f0834d.png"/></a></li>
+        <li><a href="#"><img src="image/574f8b20N0715e947.png"/></a></li>
+        <li><a href="#"><img src="image/574f8b2cN5f4b0e98.png"/></a></li>
+    </ul>
+</div>
+</body>
+</html>
